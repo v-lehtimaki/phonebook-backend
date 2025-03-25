@@ -15,30 +15,24 @@ app.use(express.json())
 app.use(cors())
 app.use(morgan(':method :url :status :res[content-length] - :response-time ms :body'))
 
-function getRandomIntInclusive(min, max) {
-  const minCeiled = Math.ceil(min);
-  const maxFloored = Math.floor(max);
-  return Math.floor(Math.random() * (maxFloored - minCeiled + 1) + minCeiled).toString(); // The maximum is inclusive and the minimum is inclusive
-}
-
 // Get all persons.
 app.get('/api/persons', (request, response) => {
-    Person.find({}).then(persons => {
-      response.json(persons)
-    })
+  Person.find({}).then(persons => {
+    response.json(persons)
+  })
 })
 
 // Get a person by id.
 app.get('/api/persons/:id', (request, response, next) => {
   Person.findById(request.params.id)
-  .then(person => {
-    if (person) {
-      response.json(person)
-    } else {
-      response.status(404).end()
-    }
-  })
-  .catch(error => next(error))
+    .then(person => {
+      if (person) {
+        response.json(person)
+      } else {
+        response.status(404).end()
+      }
+    })
+    .catch(error => next(error))
 })
 
 app.get('/info', (request, response) => {
@@ -55,24 +49,19 @@ app.post('/api/persons', (request, response, next) => {
   const body = request.body
 
   if (!body.name) {
-    return response.status(400).json({ 
-      error: 'Name is missing' 
+    return response.status(400).json({
+      error: 'Name is missing'
     })
   }
 
   if (!body.phoneNumber) {
-    return response.status(400).json({ 
-      error: 'Number is missing' 
+    return response.status(400).json({
+      error: 'Number is missing'
     })
   }
 
-  /* if (persons.find(person => person.name === body.name)) {
-    return response.status(400).json({ 
-      error: 'Name must be unique' 
-    })
-  } */
-  console.log(`Phone number: ${body.phoneNumber}`);
-  
+  console.log(`Phone number: ${body.phoneNumber}`)
+
   const person = new Person({
     name: body.name,
     phoneNumber: body.phoneNumber
@@ -81,7 +70,7 @@ app.post('/api/persons', (request, response, next) => {
   person.save().then(savedPerson => {
     response.json(savedPerson)
   })
-  .catch(error => next(error))
+    .catch(error => next(error))
 })
 
 // Update a person's info by id.
@@ -106,7 +95,7 @@ app.put('/api/persons/:id', (request, response, next) => {
 
 
 // Delete a person by id.
-app.delete('/api/persons/:id', (request, response) => {
+app.delete('/api/persons/:id', (request, response, next) => {
   Person.findByIdAndDelete(request.params.id)
     .then(result => {
       response.status(204).end()
