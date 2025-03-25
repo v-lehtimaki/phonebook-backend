@@ -7,14 +7,16 @@
     "start": "node index.js",
     "dev": "nodemon index.js",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build:ui": "rm -rf dist && cd ~/full-stack-webdev-course/osa2/puhelinluettelo && npm run build && cp -r dist ~/phonebook-backend",
+    "build:ui": "echo 'Poistetaan dist-hakemisto' && rm -rf dist && echo 'Siirrytään hakemistoon' && cd C:\\Users\\ville.lehtimaki\\full-stack-webdev-course\\osa2\\puhelinluettelo && echo 'Suoritetaan npm run build' && npm run build && echo 'Kopioidaan dist-hakemisto' && cp -r dist /c/Users/ville.lehtimaki/phonebook-backend && echo 'Skripti suoritettu'",
     "deploy:full": "npm run build:ui && git add . && git commit -m uibuild && git push"
   },
   "author": "Ville Lehtimäki",
   "license": "ISC",
   "dependencies": {
     "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
     "express": "^4.21.2",
+    "mongoose": "^8.12.1",
     "morgan": "^1.10.0"
   },
   "devDependencies": {
